@@ -1,4 +1,4 @@
-package com.Springboot.blog.conroller;
+package com.Springboot.blog.controller;
 
 import com.Springboot.blog.payload.PostDTO;
 import com.Springboot.blog.service.PostService;
