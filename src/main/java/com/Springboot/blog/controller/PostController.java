@@ -20,7 +20,7 @@ public class PostController {
     //create blog rest api
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
-        return new ResponseEntity<PostDTO>(postService.createPost(postDTO), HttpStatus.OK);
+        return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.OK);
     }
 
 
@@ -28,7 +28,7 @@ public class PostController {
     @GetMapping
     public List<PostDTO> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "PageSize", defaultValue = "10",required = false) int pageSize
+            @RequestParam(value = "pageSize", defaultValue = "10",required = false) int pageSize
     ){
         return postService.getAllPosts(pageNo, pageSize);
     }
