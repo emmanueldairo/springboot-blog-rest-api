@@ -2,7 +2,7 @@ package com.Springboot.blog.service.impl;
 
 import com.Springboot.blog.entity.Post;
 import com.Springboot.blog.exception.ResourceNotFoundException;
-import com.Springboot.blog.payload.PostDTO;
+import com.Springboot.blog.payload.PostDto;
 import com.Springboot.blog.payload.PostResponse;
 import com.Springboot.blog.repository.PostRepository;
 import com.Springboot.blog.service.PostService;
@@ -25,12 +25,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO createPost(PostDTO postDTO) {
+    public PostDto createPost(PostDto postDTO) {
         Post post = mapToEntity(postDTO);
 
         Post newPost = postRepository.save(post);
 
-        PostDTO postResponse = mapToDTO(newPost);
+        PostDto postResponse = mapToDTO(newPost);
 
         return postResponse;
     }
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
         //get content for page object
         List<Post> listOfPosts = posts.getContent();
 
-        List<PostDTO> content = listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
+        List<PostDto> content = listOfPosts.stream().map(post -> mapToDTO(post)).collect(Collectors.toList());
 
         PostResponse postResponse = new PostResponse();
 
@@ -61,13 +61,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getPostById(long id) {
+    public PostDto getPostById(long id) {
         Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post", "id", id));
         return mapToDTO(post);
     }
 
     @Override
-    public PostDTO updatePost(PostDTO postDTO, long id) {
+    public PostDto updatePost(PostDto postDTO, long id) {
         //get a post by id from DB
         Post post = postRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Post", "id", id));
         post.setTitle(postDTO.getTitle());
@@ -88,9 +88,9 @@ public class PostServiceImpl implements PostService {
     }
 
     //convert entity into DTO
-    private PostDTO mapToDTO(Post post)
+    private PostDto mapToDTO(Post post)
     {
-        PostDTO postDTO = new PostDTO();
+        PostDto postDTO = new PostDto();
         postDTO.setID(post.getId());
         postDTO.setTitle(post.getTitle());
         postDTO.setDescription(post.getDescription());
@@ -100,7 +100,7 @@ public class PostServiceImpl implements PostService {
     }
 
     //convert DTO to entity
-    private Post mapToEntity(PostDTO postDTO){
+    private Post mapToEntity(PostDto postDTO){
         Post post = new Post();
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());

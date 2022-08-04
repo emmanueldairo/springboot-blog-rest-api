@@ -3,7 +3,7 @@ package com.Springboot.blog.payload;
 import lombok.Data;
 
 @Data
-public class PostDTO {
+public class PostDto {
     private long ID;
     private String title;
     private String description;
