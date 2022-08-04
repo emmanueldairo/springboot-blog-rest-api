@@ -37,9 +37,9 @@ public class CommentServiceImpl implements CommentService {
     private CommentDto mapToDto(Comment comment){
         CommentDto commentDto = new CommentDto();
         commentDto.setId(comment.getId());
-        commentDto.setName(commentDto.getName());
-        commentDto.setEmail(commentDto.getEmail());
-        commentDto.setBody(commentDto.getBody());
+        commentDto.setName(comment.getName());
+        commentDto.setEmail(comment.getEmail());
+        commentDto.setBody(comment.getBody());
 
         return commentDto;
     }
