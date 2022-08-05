@@ -6,6 +6,7 @@ import com.Springboot.blog.payload.PostDto;
 import com.Springboot.blog.payload.PostResponse;
 import com.Springboot.blog.repository.PostRepository;
 import com.Springboot.blog.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +20,10 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
-
-    public PostServiceImpl(PostRepository postRepository) {
+    private ModelMapper mapper;
+    public PostServiceImpl(PostRepository postRepository, ModelMapper mapper) {
         this.postRepository = postRepository;
+        this.mapper=mapper;
     }
 
     @Override
@@ -90,21 +92,23 @@ public class PostServiceImpl implements PostService {
     //convert entity into DTO
     private PostDto mapToDTO(Post post)
     {
-        PostDto postDTO = new PostDto();
-        postDTO.setID(post.getId());
-        postDTO.setTitle(post.getTitle());
-        postDTO.setDescription(post.getDescription());
-        postDTO.setContent(post.getContent());
+        PostDto postDto = mapper.map(post, PostDto.class);
+//        PostDto postDTO = new PostDto();
+//        postDTO.setID(post.getId());
+//        postDTO.setTitle(post.getTitle());
+//        postDTO.setDescription(post.getDescription());
+//        postDTO.setContent(post.getContent());
 
-        return postDTO;
+        return postDto;
     }
 
     //convert DTO to entity
     private Post mapToEntity(PostDto postDTO){
-        Post post = new Post();
-        post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
-        post.setDescription(postDTO.getDescription());
+        Post post = mapper.map(postDTO, Post.class);
+//        Post post = new Post();
+//        post.setTitle(postDTO.getTitle());
+//        post.setContent(postDTO.getContent());
+//        post.setDescription(postDTO.getDescription());
 
         return post;
     }
