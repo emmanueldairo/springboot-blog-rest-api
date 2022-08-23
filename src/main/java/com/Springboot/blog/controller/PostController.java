@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping()
 public class PostController {
     private PostService postService;
 
@@ -21,7 +21,7 @@ public class PostController {
     }
 
     //create blog rest api
-    @PostMapping
+    @PostMapping("/api/v1/posts")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDTO){
         return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.OK);
@@ -29,7 +29,7 @@ public class PostController {
 
 
     //get all posts rest api
-    @GetMapping
+    @GetMapping("/api/v1/posts")
     public PostResponse getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = AppConstants.DEAFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = AppConstants.DEAFAULT_PAGE_SIZE,required = false) int pageSize,
@@ -40,13 +40,13 @@ public class PostController {
     }
 
     //get post by id
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/posts/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") long id){
         return  ResponseEntity.ok(postService.getPostById(id));
     }
 
     //update post by id rest api
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/posts/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDTO, @PathVariable(name = "id") long id){
         PostDto postResponse = postService.updatePost(postDTO,id);
@@ -54,7 +54,7 @@ public class PostController {
     }
 
     //delete post rest api
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/v1/posts/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
         postService.deletePostById(id);
