@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
@@ -14,17 +15,20 @@ public class JwtTokenProvider {
     @Value("${app.jwt-secret}")
     private String jwtSecret;
     @Value("${app.jwt-expiration-milliseconds}")
-    private String jwtExpirationInMs;
+    private int jwtExpirationInMs;
 
     //generate token
     public String generateToken(Authentication authentication){
         String userName = authentication.getName();
+        Calendar calendar = Calendar.getInstance();
         Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime()+jwtExpirationInMs);
+        calendar.add(Calendar.MILLISECOND, jwtExpirationInMs);
+        Date expireDate = calendar.getTime();
+                //new Date(currentDate.getTime()+Long.parseLong(jwtExpirationInMs));
 
         String token = Jwts.builder()
                 .setSubject(userName)
-                .setIssuedAt(currentDate)
+                .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
